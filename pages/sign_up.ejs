@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <title>Sign up page</title>
+</head>
+<body>
+<script>
+    window.onload = function() {
+        var btn = document.getElementById('btn');
+
+        btn.addEventListener('click', function (e) {
+            var inp = document.getElementsByTagName('input');
+
+            for (var i = 0; i < inp.length - 1; i++) {
+                if (inp[i].value == "") {
+                    console.log("Invalid data in form");
+                    e.preventDefault();
+                    return;
+                }
+            }
+            var data = {
+                username: inp[0].value,
+                password: inp[1].value
+            };
+
+            var xhr = new XMLHttpRequest()
+            xhr.open("POST", '/signup');
+
+            console.log(JSON.stringify(data));
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send(JSON.stringify(data));
+            xhr.onload = function() {
+                alert(xhr.responseText);
+                window.location.href = '/login';
+            }
+            xhr.onerror = function() {
+                alert('Could not create user');
+            }
+        });
+    }
+</script>
+<div class="panel well" style="width: 350px; padding: 25px; text-align: center">
+    <h2 style="margin-bottom: 35px;">Sign up!</h2>
+    <form name="signup">
+        <div class="form-group">
+            <label>Username</label><input type="text" class="form-control input-lg">
+        </div>
+        <div class="form-group">
+            <label>Password</label><input type="password" class="form-control input-lg">
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-lg btn-success" value="Sign up" id="btn">
+        </div>
+    </form>
+</div>
+</body>
+</html>
